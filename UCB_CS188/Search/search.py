@@ -116,7 +116,7 @@ def depthFirstSearch(problem):
         
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
+    "*** YOUR CODE HERE ***."
     visited = []
     
     states_stack = util.Queue()    
