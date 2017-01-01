@@ -90,15 +90,15 @@ def depthFirstSearch(problem):
     
     visited = []
     
-    states_stack = util.Stack()    
-    states_stack.push(problem.getStartState())
+    states_queue = util.Stack()    
+    states_queue.push(problem.getStartState())
 
     fringe = util.Stack()
     fringe.push([])
     
-    while(states_stack.isEmpty() == False):
+    while(states_queue.isEmpty() == False):
         
-        cur_state = states_stack.pop()        
+        cur_state = states_queue.pop()        
         cur_path = fringe.pop()
 
         
@@ -111,7 +111,7 @@ def depthFirstSearch(problem):
             else:
                 sucs = problem.getSuccessors(cur_state)
                 for suc in sucs:
-                    states_stack.push(suc[0])                 
+                    states_queue.push(suc[0])                 
                     fringe.push(cur_path + [suc[1]])
         
 def breadthFirstSearch(problem):
@@ -119,15 +119,15 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***."
     visited = []
     
-    states_stack = util.Queue()    
-    states_stack.push(problem.getStartState())
+    states_queue = util.Queue()    
+    states_queue.push(problem.getStartState())
 
     fringe = util.Queue()
     fringe.push([])
     
-    while(states_stack.isEmpty() == False):
+    while(states_queue.isEmpty() == False):
         
-        cur_state = states_stack.pop()        
+        cur_state = states_queue.pop()        
         cur_path = fringe.pop()
 
         
@@ -140,7 +140,7 @@ def breadthFirstSearch(problem):
             else:
                 sucs = problem.getSuccessors(cur_state)
                 for suc in sucs:
-                    states_stack.push(suc[0])                 
+                    states_queue.push(suc[0])                 
                     fringe.push(cur_path + [suc[1]])    
 
 def uniformCostSearch(problem):
