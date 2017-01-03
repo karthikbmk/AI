@@ -86,8 +86,7 @@ def depthFirstSearch(problem):
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
-    "*** YOUR CODE HERE ***"
-    
+    "*** YOUR CODE HERE ***"    
     visited = []
     
     states_queue = util.Stack()    
@@ -117,6 +116,7 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***."
+    
     visited = []
     
     states_queue = util.Queue()    
@@ -141,12 +141,35 @@ def breadthFirstSearch(problem):
                 sucs = problem.getSuccessors(cur_state)
                 for suc in sucs:
                     states_queue.push(suc[0])                 
-                    fringe.push(cur_path + [suc[1]])    
+                    fringe.push(cur_path + [suc[1]])
+
+
+def get_priority(item):
+    return item[2]
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    start = [problem.getStartState(),[],0]
+    visited = []
+    
+    states_heap = util.PriorityQueueWithFunction(get_priority)
+    states_heap.push(start)
+
+    i = 0
+    while(states_heap.isEmpty() == False):
+        
+        cur_state = states_heap.pop()                        
+        if cur_state[0] not in visited:
+            visited.append(cur_state[0])            
+            if problem.isGoalState(cur_state[0]):                
+                return cur_state[1]
+            else:
+                sucs = problem.getSuccessors(cur_state[0])
+                for suc in sucs:                
+                    states_heap.push([suc[0],cur_state[1] + [suc[1]], suc[2] + cur_state[2]])                                             
+    
 
 def nullHeuristic(state, problem=None):
     """
