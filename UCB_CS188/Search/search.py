@@ -156,8 +156,7 @@ def uniformCostSearch(problem):
     
     states_heap = util.PriorityQueueWithFunction(get_priority)
     states_heap.push(start)
-
-    i = 0
+    
     while(states_heap.isEmpty() == False):
         
         cur_state = states_heap.pop()                        
@@ -181,7 +180,26 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    start = [problem.getStartState(),[],heuristic(problem.getStartState(),problem)]
+    visited = []
+    
+    states_heap = util.PriorityQueueWithFunction(get_priority)
+    states_heap.push(start)
+
+    
+    while(states_heap.isEmpty() == False):
+        
+        cur_state = states_heap.pop()
+        
+        if cur_state[0] not in visited:
+            visited.append(cur_state[0])            
+            if problem.isGoalState(cur_state[0]):                
+                return cur_state[1]
+            else:
+                sucs = problem.getSuccessors(cur_state[0])
+                for suc in sucs:                
+                    states_heap.push([suc[0],cur_state[1] + [suc[1]], suc[2] + cur_state[2] + heuristic(suc[0],problem) - heuristic(cur_state[0],problem)])                                                 
+    
 
 
 # Abbreviations
