@@ -39,6 +39,7 @@ from game import Agent
 from game import Actions
 import util
 import time
+import copy
 import search
 
 class GoWestAgent(Agent):
@@ -286,7 +287,7 @@ class CornersProblem(search.SearchProblem):
                 print 'Warning: no food in corner ' + str(corner)
         self._expanded = 0 # DO NOT CHANGE; Number of search nodes expanded
         # Please add any code here which you would like to use
-        # in initializing the problem
+        # in initializing the problem            
         "*** YOUR CODE HERE ***"
 
     def getStartState(self):
@@ -295,15 +296,28 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        
+        start_pos = self.startingPosition
+        corner_vis = [False,False,False,False]
+        
+        if start_pos in self.corners:
+            corner_vis[self.corners.index(state)] = True
+
+        return (start_pos,corner_vis)    
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
-
+        corner_vis_flags = state[1]
+        
+        for flag in corner_vis_flags:
+            if flag == False:
+                return False
+        
+        return True
+            
     def getSuccessors(self, state):
         """
         Returns successor states, the actions they require, and a cost of 1.
@@ -315,6 +329,8 @@ class CornersProblem(search.SearchProblem):
             is the incremental cost of expanding to that successor
         """
 
+        
+        
         successors = []
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
@@ -323,6 +339,24 @@ class CornersProblem(search.SearchProblem):
             #   dx, dy = Actions.directionToVector(action)
             #   nextx, nexty = int(x + dx), int(y + dy)
             #   hitsWall = self.walls[nextx][nexty]
+            x,y = state[0]
+            
+            parent_corner_vis_flags = copy.deepcopy(state[1])            
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            if not self.walls[nextx][nexty]:
+                nextState = (nextx, nexty)
+                cost = 1
+
+                if nextState in self.corners:
+                    parent_corner_vis_flags[self.corners.index(nextState)] = True                    
+
+                tmp_lst = []
+                tmp_lst.append(nextState)
+                tmp_lst.append(parent_corner_vis_flags)
+                tmp_lst = tuple(tmp_lst)
+                successors.append( ( tmp_lst, action, cost) )
+            
 
             "*** YOUR CODE HERE ***"
 
