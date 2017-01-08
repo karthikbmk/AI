@@ -130,12 +130,12 @@ def breadthFirstSearch(problem):
         cur_state = states_queue.pop()        
         cur_path = fringe.pop()
 
-        
+                
         if cur_state in visited:
             continue
         else:
-            visited.append(cur_state)            
-            if problem.isGoalState(cur_state):                    
+            visited.append(cur_state)                                       
+            if problem.isGoalState(cur_state):                
                 return cur_path
             else:
                 sucs = problem.getSuccessors(cur_state)
@@ -150,7 +150,7 @@ def get_priority(item):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-
+    
     start = [problem.getStartState(),[],0]
     visited = []
     
@@ -161,10 +161,11 @@ def uniformCostSearch(problem):
         
         cur_state = states_heap.pop()                        
         if cur_state[0] not in visited:
-            visited.append(cur_state[0])            
+            visited.append(cur_state[0])
+            
             if problem.isGoalState(cur_state[0]):                
                 return cur_state[1]
-            else:
+            else:                
                 sucs = problem.getSuccessors(cur_state[0])
                 for suc in sucs:                
                     states_heap.push([suc[0],cur_state[1] + [suc[1]], suc[2] + cur_state[2]])                                             
