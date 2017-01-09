@@ -393,6 +393,13 @@ def cornersHeuristic(state, problem):
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
+    min_goal_dist = 999999
+    for corner in corners:
+		man_hat_dist = abs(state[0][0] - corner[0]) + abs(state[0][1] - corner[1])    	
+		if man_hat_dist < min_goal_dist:
+			min_goal_dist = man_hat_dist
+
+    return min_goal_dist
     "*** YOUR CODE HERE ***"
     return 0 # Default to trivial solution
 
