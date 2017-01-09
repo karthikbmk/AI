@@ -395,7 +395,7 @@ def cornersHeuristic(state, problem):
 
     min_goal_dist = 999999
     for corner in corners:
-		man_hat_dist = abs(state[0][0] - corner[0]) + abs(state[0][1] - corner[1])    	
+		man_hat_dist = (abs(state[0][0] - corner[0])**2 + abs(state[0][1] - corner[1])**2)*0.5
 		if man_hat_dist < min_goal_dist:
 			min_goal_dist = man_hat_dist
 
