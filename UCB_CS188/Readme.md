@@ -1,4 +1,4 @@
-# Pacman AI (Berkeley CS188)
+# Pacman AI (UC Berkeley CS188)
 
 <p>AI will be designed using below techniques</p>
 
