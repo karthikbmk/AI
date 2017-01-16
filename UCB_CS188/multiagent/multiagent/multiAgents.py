@@ -15,6 +15,7 @@
 from util import manhattanDistance
 from game import Directions
 import random, util
+import sys
 
 from game import Agent
 
@@ -51,6 +52,7 @@ class ReflexAgent(Agent):
 
         return legalMoves[chosenIndex]
 
+
     def evaluationFunction(self, currentGameState, action):
         """
         Design a better evaluation function here.
@@ -67,14 +69,41 @@ class ReflexAgent(Agent):
         to create a masterful evaluation function.
         """
         # Useful information you can extract from a GameState (pacman.py)
+
         successorGameState = currentGameState.generatePacmanSuccessor(action)
-        newPos = successorGameState.getPacmanPosition()
+        newPos  = successorGameState.getPacmanPosition()
         newFood = successorGameState.getFood()
         newGhostStates = successorGameState.getGhostStates()
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
 
-        "*** YOUR CODE HERE ***"
-        return successorGameState.getScore()
+        pacmanGhostDist = 0
+        distBWFarthestGhost = 0
+        ghostPos = []
+        
+    	for ghost in newGhostStates:
+    		cur_pos = ghost.getPosition()
+    		tmp = manhattanDistance(newPos, cur_pos)               
+    		pacmanGhostDist += tmp
+    		ghostPos.append(cur_pos)     
+       
+
+        remainingFood = newFood.asList()
+
+        min_dist = sys.maxint
+        for food in newFood.asList():
+        	tmp = manhattanDistance(newPos,food)
+        	if tmp < min_dist:
+        		min_dist = tmp 
+              
+        if len(remainingFood) != 0:        	
+        	score = pacmanGhostDist + 100000/len(remainingFood) + 7/min_dist
+        	if len(newGhostStates) > 1:
+        		if manhattanDistance(ghostPos[0],ghostPos[1]) > 0:
+        			score += manhattanDistance(ghostPos[0],ghostPos[1])
+        else:
+        	score = sys.maxint
+
+        return score        
 
 def scoreEvaluationFunction(currentGameState):
     """
