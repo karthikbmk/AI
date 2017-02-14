@@ -206,6 +206,7 @@ def main():
                 continue
             orig_board[mat_pos[0],mat_pos[1]] = 'O'
             print('Your move :\n',orig_board,'\n')
+            print('Thinking...\n')
             orig_board = think_and_play(orig_board)
             print('Comp move :\n',orig_board,'\n')
         except ValueError:

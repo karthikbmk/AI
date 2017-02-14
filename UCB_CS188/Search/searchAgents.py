@@ -376,6 +376,35 @@ class CornersProblem(search.SearchProblem):
             if self.walls[x][y]: return 999999
         return len(actions)
 
+def isAnyCornerUnvisited(corner_vis_flags):
+
+	for flag in corner_vis_flags:
+		if flag == False:
+			return True
+	return False
+
+def euclideanDistance(pos1,pos2):
+
+	return (abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2)*0.5
+
+def getNearestCorner(cur_pos,corners,corner_vis_flags):
+
+	nearestDist = 99999
+
+	i = 0
+	nearestCorner = (-99,-99)
+
+	for corner in corners:
+		if corner_vis_flags[i] == False:
+			cur_dist = euclideanDistance(cur_pos,corner)
+			if cur_dist < nearestDist:
+				nearestDist = cur_dist
+				nearestCorner = corner
+
+		i += 1
+	return nearestCorner	
+
+
 
 def cornersHeuristic(state, problem):
     """
@@ -393,6 +422,7 @@ def cornersHeuristic(state, problem):
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
+<<<<<<< HEAD
     min_goal_dist = 999999
     for corner in corners:
 		man_hat_dist = (abs(state[0][0] - corner[0])**2 + abs(state[0][1] - corner[1])**2)*0.5
@@ -403,6 +433,20 @@ def cornersHeuristic(state, problem):
     "*** YOUR CODE HERE ***"
     return 0 # Default to trivial solution
 
+=======
+    h_value = 0.0
+    
+    tmp_vis_flags = copy.deepcopy(state[1])
+    cur = state[0]
+    
+    while(isAnyCornerUnvisited(tmp_vis_flags)):
+    	nearestCorner = getNearestCorner(cur,corners,tmp_vis_flags)    	
+    	h_value += euclideanDistance(cur,nearestCorner)    	
+    	tmp_vis_flags[corners.index(nearestCorner)] = True
+    	cur = nearestCorner
+
+    return h_value/5
+>>>>>>> 7ea174f69c00046a59a1794fc6db2534d418a1a4
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
     def __init__(self):
